@@ -23,6 +23,7 @@ train_gans.py
 train_ddpm.py
 experiments/
   mlp_limits.py
+  report_followup.py
 evaluate.py
 requirements.txt
 ```
@@ -68,3 +69,33 @@ Perhitungan FID membatasi penggunaan memori dengan menghasilkan paling banyak
 64 gambar pada setiap iterasi; jumlah sampel evaluasi bawaan adalah 5.000.
 Sampling DDPM membutuhkan komputasi lebih besar karena proses reverse
 dijalankan untuk setiap sampel.
+
+## Eksperimen pelengkap laporan
+
+Setelah checkpoint utama tersedia, ukur latensi generasi batch-1, coverage
+kelas dengan filter confidence, sweep λ dan frekuensi aktif neuron Sparse AE,
+AUROC deteksi anomali, serta kelancaran interpolasi laten dengan:
+
+```powershell
+python -m experiments.report_followup
+```
+
+Secara default, protokol anomali melatih Vanilla AE, Sparse AE, dan VAE selama
+20 epoch untuk kelas normal 0, 1, dan 8; membandingkannya dengan baseline
+deviasi rata-rata intensitas piksel; Sparse AE diuji pada λ=10⁻³ dan
+λ=10⁻⁵ agar pengaruh penalti besar dapat dibedakan dari hasil pada fidelitas
+rekonstruksi yang mendekati Vanilla AE. Checkpoint model yang sudah tersedia
+digunakan kembali. Hasil melaporkan AUROC agregat/per kelas dan median serta
+rentang P10–P90 skor normal/anomali untuk membandingkan distribusi error.
+Coverage memakai 1.000 citra per generator dan confidence
+minimum 0,80, menggunakan cache FID bila tersedia. Sampel interpolasi
+kelancaran dihitung dari 100 pasangan uji; selain MSE antarkerangka, CSV
+menyimpan rasio panjang lintasan piksel terhadap jarak endpoint agar
+perbandingan tidak hanya mengikuti jarak pasangan. Jumlah sampel, epoch, threshold,
+dan kelas normal dapat diubah lewat `--coverage-samples`,
+`--anomaly-epochs`, `--confidence-threshold`, `--latent-pairs`, dan
+`--normal-classes` (contoh `--normal-classes 0,1,8`). Hasil metrik disimpan di
+`outputs/metrics/`, checkpoint eksperimen di `outputs/checkpoints/`, dan
+grafik di `outputs/figures/`. Kisi bobot Sparse AE menampilkan hingga 16 neuron
+non-mati dengan frekuensi aktif tertinggi untuk tiap λ, beserta ID neuron dan
+frekuensi aktifnya.
