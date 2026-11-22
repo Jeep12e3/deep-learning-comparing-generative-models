@@ -1,0 +1,4 @@
+Model,Latency_ms_batch1_median,Latency_ms_batch1_p10,Latency_ms_batch1_p90,Warmup,Repeats_per_round,Rounds,Device,CPU_threads,Latency_ms_batch1_encode_decode_median,Latency_ms_batch1_encode_decode_p10,Latency_ms_batch1_encode_decode_p90
+VAE,0.10495001333765686,0.0602099928073585,0.13044001534581184,20,100,5,cpu,1,0.2968499902635813,0.29469000874087214,0.4130000132136047
+Vanilla GAN,0.33275000168941915,0.2892100135795772,0.3874200163409114,20,100,5,cpu,1,,,
+DCGAN,2.8077500173822045,2.579469996271655,2.990740002132952,20,100,5,cpu,1,,,

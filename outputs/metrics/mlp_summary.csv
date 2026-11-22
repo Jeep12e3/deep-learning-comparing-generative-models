@@ -1,0 +1,4 @@
+metric,value
+mlp_test_accuracy,0.8865714285714286
+test_latent_mean,1.5686472654342651
+test_latent_std_mean,1.91596257686615
