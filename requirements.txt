@@ -1,0 +1,14 @@
+torch
+torchvision
+
+numpy
+pandas
+matplotlib
+seaborn
+scikit-image
+scipy
+tqdm
+torchmetrics
+torch-fidelity
+jupyter
+ipykernel
